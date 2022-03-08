@@ -10,12 +10,18 @@ function matilda_plugin_setup_shortcode() {
 
     // https://developer.wordpress.org/reference/functions/wp_enqueue_script/
     wp_enqueue_script(
-        "matildas-plugin-public-script",
-        plugin_dir_url(__FILE__) . "js/matildas-plugin-public.js"
+        "demo-plugin-public-script",
+        plugin_dir_url(__FILE__) . "js/matildas-plugin-public.js",
+        [],
+        false,
+        true        // Put our <script> before closing </body>
     );
 
     $html = "
-        <p class='ett-test'>Hejjjjjj!</p>
+        <form id='matildas-plugin-form'>
+            <input type='text' name='country' placeholder='Write a country!'>
+            <button>Submit country</button>
+        </form>
     ";
 
     // Shortcodes must return their content (not 'echo')
@@ -24,3 +30,4 @@ function matilda_plugin_setup_shortcode() {
 
 // https://developer.wordpress.org/reference/functions/add_shortcode/
 add_shortcode("matildas-plugin-shortcode", "matildas_plugin_setup_shortcode");
+
