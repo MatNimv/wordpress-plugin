@@ -17,7 +17,7 @@ submit_button();
 <?php
 // NOTE: Simple way of printing out our stored data to our admin view,
 //       you'll have to 'inspect element' to see it.
-var_dump(get_option("demo-plugin-data"));
+var_dump(get_option("matildas-plugin-data"));
 var_dump($_POST);
 ?>
 -->

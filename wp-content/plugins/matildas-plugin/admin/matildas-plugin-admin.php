@@ -28,7 +28,7 @@ function matildas_plugin_admin_init() {
     );
 
     add_settings_field(
-        "matilda-plugin-field-1",              // Id
+        "matildas-plugin-field-1",              // Id
         "Name",                             // Title
         "matildas_plugin_render_name_field",    // Callback
         "matildas-plugin-settings",             // Page (slug)
@@ -36,17 +36,9 @@ function matildas_plugin_admin_init() {
         ["label_for" => "matildas-plugin-name"] // <label for="">
     );
 
-    add_settings_field(
-        "matilda-plugin-field-2",              // Id
-        "Shit",                             // Title
-        "matildas_plugin_render_shit_field",    // Callback
-        "matildas-plugin-settings",             // Page (slug)
-        "matildas-plugin-continent-section",            // Section Id
-        ["label_for" => "matildas-plugin-shit"] // <label for="">
-    );
 }
 
-// The 'instruction' text below the section header
+ // The 'instruction' text below the section header
 function matildas_plugin_render_continent_section() {
     echo "
     <p>Down here you can choose which continents will be available to the user.</p>
@@ -54,69 +46,50 @@ function matildas_plugin_render_continent_section() {
 }
 
 function matildas_plugin_render_continent_checkboxes() {
-    // https://developer.wordpress.org/reference/functions/get_option/
-    $data = get_option("demo-plugin-data");
-    // https://developer.wordpress.org/reference/functions/esc_attr/
-    //$availableContinents = $data["continent"];
+     // https://developer.wordpress.org/reference/functions/get_option/
+     $data = get_option("matildas-plugin-data");
+     // https://developer.wordpress.org/reference/functions/esc_attr/
 
-    // NOTE: notice the 'name' syntax for storing stuff inside an array
-    //       See: https://stackoverflow.com/a/7946494
+     // NOTE: notice the 'name' syntax for storing stuff inside an array
+     //       See: https://stackoverflow.com/a/7946494
 
-    $continentData = var_dump($data);
-    
-    echo "<p>These are now your chosen continents: $continentData</p>";
-    //var_dump($data);
+     $continentData = var_dump($data);
+   
+     echo "<p>These are now your chosen continents: $continentData</p>";
 
-    $continents = $_POST["continent"];
-    echo $continents;
+     //$continents = $_POST["continent"];
+     //echo $continents;
+     echo $data;
 
-    //foreach ($availableContinents as $continent){
-    //    echo "$continent <br>";
-    //}
-
-    //echo var_dump($data);
 
     echo '
-    <label>Check the boxes of continents to be shown on your page.</label><br>
+    <span>Check the boxes of continents to be shown on your page.</span><br>
     <input type="checkbox" value="Africa" name="matildas-plugin-data["continent"]" id="matildas-plugin-continents">Africa<br>
-    <input type="checkbox" value="Americas" name="continent[]" id="matildas-plugin-continents">Americas<br>
-    <input type="checkbox" value="Asia" name="continent[]" id="matildas-plugin-continents">Asia<br>
-    <input type="checkbox" value="Europe" name="continent[]" id="matildas-plugin-continents">Europe<br>
-    <input type="checkbox" value="Oceania" name="continent[]" id="matildas-plugin-continents">Oceania<br>
+    <input type="checkbox" value="Americas" name="matildas-plugin-data["continent"]" id="matildas-plugin-continents">Americas<br>
+    <input type="checkbox" value="Asia" name="matildas-plugin-data["continent"]" id="matildas-plugin-continents">Asia<br>
+    <input type="checkbox" value="Europe" name="matildas-plugin-data["continent"]" id="matildas-plugin-continents">Europe<br>
+    <input type="checkbox" value="Oceania" name="matildas-plugin-data["continent"]" id="matildas-plugin-continents">Oceania<br>
     ';
+ }
+
+function matildas_plugin_render_section() {
+    echo "
+    <p>This is the section</p>
+    ";
 }
 
 function matildas_plugin_render_name_field() {
-
     // https://developer.wordpress.org/reference/functions/get_option/
-    $data = get_option("matilda-plugin-data");
+    $data = get_option("matildas-plugin-data");
     // https://developer.wordpress.org/reference/functions/esc_attr/
     $name = esc_attr($data["name"]);
-    echo "<p>$name</p>";
     // NOTE: notice the 'name' syntax for storing stuff inside an array
     //       See: https://stackoverflow.com/a/7946494
     echo "
-    <input type='text' name='demo-plugin-data[name]' id='demo-plugin-name' value='$name'>
+    <input type='text' name='matildas-plugin-data[name]' id='matildas-plugin-name' value='$name'>
     <p class='description'>This will describe the name field</p>
     ";
 }
-
-function matildas_plugin_render_shit_field() {
-
-    // https://developer.wordpress.org/reference/functions/get_option/
-    $data = get_option("matilda-plugin-data");
-    var_dump(get_option("matildas-plugin-data"));
-    // https://developer.wordpress.org/reference/functions/esc_attr/
-    $shit = esc_attr($data["shit"]);
-    echo "<p>$shit</p>";
-    // NOTE: notice the 'name' syntax for storing stuff inside an array
-    //       See: https://stackoverflow.com/a/7946494
-    echo "
-    <input type='text' name='demo-plugin-data[shit]' id='demo-plugin-shit' value='$shit'>
-    <p class='description'>This will describe the shit field</p>
-    ";
-}
-
 
 function matildas_plugin_admin_view() {
     // https://developer.wordpress.org/reference/functions/wp_enqueue_style/
@@ -132,8 +105,13 @@ function matildas_plugin_admin_view() {
         plugin_dir_url(__FILE__) . "js/matildas-plugin-admin.js"
     );
 
-    //tar med <form></form> från include-filen
+    // Include our <form> (rather then echo'ing it here)
     require_once __DIR__ . "/../includes/admin-view.php";
+
+    // echo "
+    //     <h1>matildas plugin</h1>
+    //     <p class='my-paragraph'>Hello!</p>
+    // ";
 }
 
 function matildas_plugin_setup_admin_menu() {
@@ -144,7 +122,7 @@ function matildas_plugin_setup_admin_menu() {
         "manage_options",           // User permissions
         "matildas-plugin-settings",     // Slug (Page)
         "matildas_plugin_admin_view",   // View function
-        "dashicons-category",          // Menu icon
+        "dashicons-album",          // Menu icon
         100                         // Menu order (last)
     );
 }

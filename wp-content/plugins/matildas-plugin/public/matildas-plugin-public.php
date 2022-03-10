@@ -10,7 +10,7 @@ function matilda_plugin_setup_shortcode() {
 
     // https://developer.wordpress.org/reference/functions/wp_enqueue_script/
     wp_enqueue_script(
-        "demo-plugin-public-script",
+        "matildas-plugin-public-script",
         plugin_dir_url(__FILE__) . "js/matildas-plugin-public.js",
         [],
         false,
