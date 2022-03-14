@@ -34,7 +34,7 @@ function world_plugin_admin_init() {
 
     add_settings_field(
         "world-plugin-field-2",              
-        "List of countries",                          
+        "Submitted countries",                          
         "world_plugin_render_countries_field", 
         "world-plugin-settings",             
         "world-plugin-countries",            
@@ -58,10 +58,9 @@ function world_plugin_render_countries_section() {
 function world_plugin_render_continents_field() {
     $data = get_option("world-plugin-data");
 
-    // https://developer.wordpress.org/reference/functions/esc_textarea/
     $continents = $data["continents"];
 
-    echo "This are now your chosen continent: $continents <br>";
+    echo "This is now your chosen continent: <span style='font-weight:bolder;'>$continents </span><br>";
 
     echo '
     <input type="radio" id="world-plugin-continents" name="world-plugin-data[continents]" value="Africa" />Africa<br />
@@ -74,21 +73,21 @@ function world_plugin_render_continents_field() {
 
 function world_plugin_render_countries_field() {
     $data = get_option("world-plugin-data");
-    $countries = $data["country"];
 
-    var_dump($countries);
-
-    // https://developer.wordpress.org/reference/functions/esc_textarea/
-    //$continents = $data["continents"];
-
-    foreach($countries as $key => $country){
-        $index = $key + 1;
+    if(!isset($data["country"])){ //om det inte finns någon data i //$data["country"]
         echo '<pre>';
-        echo "$index. <span>$country</span> <button><a href='delete.php?id={$key}'>Remove country</a></button>";
+        echo "Nothing submitted yet.";
         echo '</pre>';
+    } else {//det finns sparad data i country
+        $countries = $data["country"];
+        foreach($countries as $key => $country){
+            $index = $key + 1;
+            echo '<pre>';
+            echo "$index. <span>$country</span> <button><a href='delete.php?id={$key}'>Remove country</a></button>";
+            echo '</pre>';
+        }
     }
 
-    
 }
 
 function world_plugin_admin_view() {
@@ -110,11 +109,11 @@ function world_plugin_admin_view() {
 
 }
 
+//vad som syns för admin
 function world_plugin_setup_admin_menu() {
-    // https://developer.wordpress.org/reference/functions/add_menu_page/
     add_menu_page(
-        "world Plugin Settings",     // Page title
-        "world Plugin",              // Menu title
+        "World Plugin Settings",     // Page title
+        "World Plugin",              // Menu title
         "manage_options",           // User permissions
         "world-plugin-settings",     // Slug (Page)
         "world_plugin_admin_view",   // View function

@@ -2,8 +2,8 @@
 
 /**
  * Plugin Name: World Plugin
- * Description: My first plugin
- * Version: 0.1.4
+ * Description: This plugin allows the user to submit a name of a country in relation to the chosen region.
+ * Version: 1.4.2
  * Author: Matnimv
  */
 
