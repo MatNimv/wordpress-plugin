@@ -1,3 +1,5 @@
+"use strict";
+
 let form = document.getElementById("world-plugin-form");
 
 form.addEventListener("submit", function (event) {
@@ -10,3 +12,7 @@ form.addEventListener("submit", function (event) {
         body: data
     }).then(response => console.log(response));
 })
+
+
+
+

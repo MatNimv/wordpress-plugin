@@ -84,9 +84,11 @@ function world_plugin_render_countries_field() {
     foreach($countries as $key => $country){
         $index = $key + 1;
         echo '<pre>';
-        echo "$index. <span>$country</span>";
+        echo "$index. <span>$country</span> <button><a href='delete.php?id={$key}'>Remove country</a></button>";
         echo '</pre>';
     }
+
+    
 }
 
 function world_plugin_admin_view() {
